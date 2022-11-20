@@ -1,19 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 
 import Papa from 'papaparse'
 import { differenceInDays, parseISO, format } from 'date-fns';
 
 import './App.css'
-
-const DUMMY_DATA = [
-  { EmpID: 143, ProjectID: 12, DateFrom: '2013-11-01', DateTo: '2014-01-05' },
-  { EmpID: 333, ProjectID: 12, DateFrom: '2013-11-01', DateTo: '2014-01-06' },
-  { EmpID: 218, ProjectID: 10, DateFrom: '2012-05-16', DateTo: 'null' },
-  { EmpID: 143, ProjectID: 10, DateFrom: '2009-01-01', DateTo: '2011-04-28' },
-  { EmpID: 145, ProjectID: 10, DateFrom: '2009-01-01', DateTo: '2011-04-27' },
-  { EmpID: 146, ProjectID: 10, DateFrom: '2009-01-01', DateTo: '2011-04-29' },
-  { EmpID: 145, ProjectID: 11, DateFrom: '2009-01-01', DateTo: '2011-04-29' },
-]
 
 function App() {
 
@@ -57,17 +47,12 @@ function App() {
 
     let days = []
     let emp = []
-    let obj = {}
     let sum = 0
     projectPerEmp[proj].forEach((element, index) => {
       days[index] = element.days
     })
     days = twoHighest(days)
 
-    obj = {
-      emp,
-      days
-    }
     projectPerEmp[proj].map((el, index) => {
       days.filter(elDays => {
         if (elDays === el.days) {
@@ -96,7 +81,7 @@ function App() {
             {res.map((value, key) => {
               return (
                 <tr key={key}>
-                  {Object.values(value).map((el, index) => <td key={index} style={{ padding: '1rem' }}>{el}</td>)}
+                  {Object.values(value).map((el, index) => <td key={index} style={{ padding: '1rem', textAlign: 'center' }}>{el}</td>)}
                 </tr>
               )
             })}
