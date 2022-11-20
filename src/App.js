@@ -94,10 +94,9 @@ function App() {
           </thead>
           <tbody>
             {res.map((value, key) => {
-              console.log(Object.values(value))
               return (
                 <tr key={key}>
-                  {Object.values(value).map(el => <td style={{ padding: '1rem' }}>{el}</td>)}
+                  {Object.values(value).map((el, index) => <td key={index} style={{ padding: '1rem' }}>{el}</td>)}
                 </tr>
               )
             })}
