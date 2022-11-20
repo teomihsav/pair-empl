@@ -25,7 +25,6 @@ function App() {
       skipEmptyLines: true,
       complete: function (results) {
         setParsedData(results.data)
-        console.log('ParsedData: ', results.data)
       },
     })
   }
@@ -39,7 +38,6 @@ function App() {
 
   const projectPerEmp = parsedData.reduce((acc, { EmpID, ProjectID, DateFrom, DateTo }) => {
     const days = dayOfWork(DateFrom, DateTo)
-    console.log('Days :', days)
     acc[ProjectID] = acc[ProjectID] ?? []
     acc[ProjectID].push({ EmpID: Number(EmpID), days })
     return acc
@@ -50,7 +48,6 @@ function App() {
       return rec > acc[1] ? [acc[1], rec] : rec > acc[0] ? [rec, acc[1]] : acc
     }, [0, 0])
   }
-  console.log('REsult Reducer: ', projectPerEmp)
 
   let res = []
   let ind = -1
@@ -58,7 +55,6 @@ function App() {
     if (projectPerEmp[proj].length < 2) { continue }
     ind++
 
-    // console.log('Element days: ', projectPerEmp[proj])
     let days = []
     let emp = []
     let obj = {}
@@ -72,47 +68,41 @@ function App() {
       emp,
       days
     }
-    // console.log('Arr: ', obj)
     projectPerEmp[proj].map((el, index) => {
-      // console.log('el.EmpID: ', el.EmpID, el.days)
       days.filter(elDays => {
         if (elDays === el.days) {
-          // console.log('el.EmpID: ', el.EmpID, el.days)
           sum = sum + el.days
           emp.push(el.EmpID)
         }
       })
-      // console.log('Sum: ', sum)
     })
     res[ind] = { ...emp, 'projectID': proj, 'sum': sum }
   }
-  console.log('Res Obj: ', res)
 
   return (
     <div>
-
       <header className="App-header">
         <input type="file" accept=".csv" onChange={handleFile} />
         <br />
-
         <table>
-          <tr>
-            {['Employee ID #1', 'Employee ID #', 'Project ID', 'Days worked'].map((rows, index) => {
-              return <th key={index} style={{ margin: '1rem' }}>{rows}</th>;
+          <thead>
+            <tr>
+              {['Employee ID #1', 'Employee ID #2', 'Project ID', 'Days worked'].map((rows, index) => {
+                return <th key={index} style={{ padding: '1rem' }}>{rows}</th>;
+              })}
+            </tr>
+          </thead>
+          <tbody>
+            {res.map((value, key) => {
+              console.log(Object.values(value))
+              return (
+                <tr key={key}>
+                  {Object.values(value).map(el => <td style={{ padding: '1rem' }}>{el}</td>)}
+                </tr>
+              )
             })}
-          </tr>
-          {res.map((value, key) => {
-            return (
-              <tr key={key}>
-                <td>{value[0]}</td>
-                <td>{value[1]}</td>
-                <td>{value.projectID}</td>
-                <td>{value.sum}</td>
-              </tr>
-            )
-          })}
+          </tbody>
         </table>
-
       </header>
     </div>
   )
