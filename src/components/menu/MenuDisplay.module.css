@@ -1,0 +1,9 @@
+.menu {
+ padding: 0.5rem;
+ text-align: center;
+ cursor: pointer;
+ font-size: 1rem;
+}
+.menu:hover {
+  border-bottom: 2px solid dimgray;
+}
